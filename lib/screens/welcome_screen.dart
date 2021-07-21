@@ -17,14 +17,21 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   void initState() {
     super.initState();
 
-    animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
     controller =
         AnimationController(duration: Duration(seconds: 2), vsync: this);
+    animation = CurvedAnimation(parent: controller, curve: Curves.bounceInOut);
     controller.forward();
     controller.addListener(() {
       print("its happening ${animation.value}");
       setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    controller.dispose();
+    super.dispose();
   }
 
   @override
