@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
+  static const String id = 'welcome_screen';
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
@@ -16,6 +17,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Row(
                   children: [
@@ -35,11 +37,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: myLoginButtons('sign up'),
+                  child: WelcomeScreenButtons('sign up', 'registration_screen'),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: myLoginButtons('login'),
+                  child: WelcomeScreenButtons('login', 'login_screen'),
                 )
               ],
             ),
@@ -48,9 +50,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 }
 
-class myLoginButtons extends StatelessWidget {
+class WelcomeScreenButtons extends StatelessWidget {
   String text;
-  myLoginButtons(this.text);
+  String screen;
+  WelcomeScreenButtons(this.text, this.screen);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +62,9 @@ class myLoginButtons extends StatelessWidget {
       borderRadius: BorderRadius.circular(30.0),
       color: Colors.lightBlueAccent,
       child: MaterialButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, screen);
+        },
         minWidth: 180.0,
         height: 45.0,
         child: Text(text),
