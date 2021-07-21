@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../components/welcome_screen_buttons.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -7,7 +8,25 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+    controller =
+        AnimationController(duration: Duration(seconds: 2), vsync: this);
+    controller.forward();
+    controller.addListener(() {
+      print("its happening ${animation.value}");
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,9 +40,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               children: <Widget>[
                 Row(
                   children: [
-                    Container(
-                      child: Image.asset('images/logo.png'),
-                      height: 60.0,
+                    Hero(
+                      tag: 'logo',
+                      child: Container(
+                        child: Image.asset('images/logo.png'),
+                        height: animation.value * 100,
+                      ),
                     ),
                     Text(
                       'Flash Chat',
@@ -37,38 +59,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: WelcomeScreenButtons('sign up', 'registration_screen'),
+                  child: WelcomeScreenButtons(
+                      'sign up', 'registration_screen', Colors.lightBlueAccent),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: WelcomeScreenButtons('login', 'login_screen'),
+                  child: WelcomeScreenButtons(
+                      'login', 'login_screen', Colors.blueAccent),
                 )
               ],
             ),
           ),
         ));
-  }
-}
-
-class WelcomeScreenButtons extends StatelessWidget {
-  String text;
-  String screen;
-  WelcomeScreenButtons(this.text, this.screen);
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.lightBlueAccent,
-      child: MaterialButton(
-        onPressed: () {
-          Navigator.pushNamed(context, screen);
-        },
-        minWidth: 180.0,
-        height: 45.0,
-        child: Text(text),
-      ),
-    );
   }
 }
