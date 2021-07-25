@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../components/welcome_screen_buttons.dart';
+import '../components/rounded_button.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -36,6 +37,22 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    AnimatedTextKit(
+      animatedTexts: [
+        TypewriterAnimatedText(
+          'Hello world!',
+          textStyle: const TextStyle(
+            fontSize: 32.0,
+            fontWeight: FontWeight.bold,
+          ),
+          speed: const Duration(milliseconds: 2000),
+        ),
+      ],
+      totalRepeatCount: 4,
+      pause: const Duration(milliseconds: 1000),
+      displayFullTextOnTap: true,
+      stopPauseOnTap: true,
+    );
     return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
@@ -54,25 +71,38 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         height: animation.value * 100,
                       ),
                     ),
-                    Text(
-                      'Flash Chat',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
+                    DefaultTextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 40.0,
+                        color: Colors.black38,
+                        fontFamily: 'Agne',
                       ),
-                    )
+                      child: AnimatedTextKit(
+                        // repeatForever: true,
+                        animatedTexts: [
+                          TypewriterAnimatedText(
+                            'Flash Chat',
+                            speed: const Duration(milliseconds: 600),
+                          ),
+                        ],
+                        isRepeatingAnimation: true,
+                        onTap: () {
+                          print("Tap Event");
+                        },
+                      ),
+                    ),
                   ],
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: WelcomeScreenButtons(
+                  child: RoundedButton(
                       'sign up', 'registration_screen', Colors.lightBlueAccent),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: WelcomeScreenButtons(
-                      'login', 'login_screen', Colors.blueAccent),
+                  child:
+                      RoundedButton('login', 'login_screen', Colors.blueAccent),
                 )
               ],
             ),

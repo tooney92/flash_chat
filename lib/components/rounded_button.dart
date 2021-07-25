@@ -1,11 +1,11 @@
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class WelcomeScreenButtons extends StatelessWidget {
+class RoundedButton extends StatelessWidget {
   final String text;
   final String screen;
   final Color? buttonColor;
-  WelcomeScreenButtons(this.text, this.screen, this.buttonColor);
+  RoundedButton(this.text, this.screen, this.buttonColor);
 
   @override
   Widget build(BuildContext context) {
